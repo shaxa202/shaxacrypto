@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shaxacrypto</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: black;
+            color: white;
+            font-family: Arial, sans-serif;
+            background-image: url('https://img.freepik.com/free-vector/black-background-with-silver-geometric-lines_1017-31888.jpg'); /* Здесь поставь путь к фоновому изображению */
+            background-size: cover;
+            background-position: center;
+        }
+        .container {
+            text-align: center;
+        }
+        .btn {
+            padding: 15px 30px;
+            font-size: 20px;
+            font-weight: bold;
+            color: white;
+            background-color: red;
+            border: none;
+            cursor: pointer;
+            border-radius: 10px;
+        }
+        .btn:hover {
+            background-color: darkred;
+        }
+        .crypto-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        .crypto-btn {
+            padding: 10px 20px;
+            font-size: 18px;
+            background-color: gray;
+            border: none;
+            color: white;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .crypto-btn:hover {
+            background-color: darkgray;
+        }
+        .chart-container {
+            display: none;
+            width: 90%;
+            max-width: 800px;
+            height: 500px;
+            margin-top: 20px;
+        }
+        .back-btn {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 18px;
+            background-color: red;
+            border: none;
+            color: white;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .back-btn:hover {
+            background-color: darkred;
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="home-screen">
+        <h1>Shaxacrypto</h1>
+        <button class="btn" onclick="showCryptoMenu()">View</button>
+    </div>
+    
+    <div class="container" id="crypto-menu" style="display: none;">
+        <h2>Выберите криптовалюту</h2>
+        <div class="crypto-buttons">
+            <button class="crypto-btn" onclick="showChart('BINANCE:BTCUSDT')">BTC</button>
+            <button class="crypto-btn" onclick="showChart('GATEIO:NOTUSDT')">NOTCOIN</button>
+            <button class="crypto-btn" onclick="showChart('BINANCE:TONUSDT')">TONCOIN</button>
+            <button class="crypto-btn" onclick="showChart('OANDA:XAUUSD')">XAUUSD</button>
+        </div>
+        <button class="back-btn" onclick="goBackHome()">Назад</button>
+    </div>
+    
+    <div class="chart-container" id="chart-container">
+        <div id="tradingview_chart"></div>
+        <button class="back-btn" onclick="showCryptoMenu()">Назад</button>
+    </div>
+    
+    <script>
+        function showCryptoMenu() {
+            document.getElementById('home-screen').style.display = 'none';
+            document.getElementById('crypto-menu').style.display = 'block';
+            document.getElementById('chart-container').style.display = 'none';
+        }
+        
+        function showChart(symbol) {
+            document.getElementById('crypto-menu').style.display = 'none';
+            document.getElementById('chart-container').style.display = 'block';
+            
+            let script = document.createElement('script');
+            script.src = "https://s3.tradingview.com/tv.js";
+            script.async = true;
+            script.onload = function() {
+                new TradingView.widget({
+                    "container_id": "tradingview_chart",
+                    "width": "100%",
+                    "height": "500px",
+                    "symbol": symbol,
+                    "interval": "D",
+                    "timezone": "Etc/UTC",
+                    "theme": "dark",
+                    "style": "1",
+                    "locale": "ru",
+                    "toolbar_bg": "#222",
+                    "enable_publishing": false,
+                    "allow_symbol_change": true
+                });
+            };
+            document.body.appendChild(script);
+        }
+        
+        function goBackHome() {
+            document.getElementById('crypto-menu').style.display = 'none';
+            document.getElementById('home-screen').style.display = 'block';
+        }
+    </script>
+</body>
+</html>
